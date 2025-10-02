@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Login | Aula Virtual</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background-color: #f4f6f8;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .login-box {
+      background-color: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .login-box h2 {
+      margin-bottom: 20px;
+      color: #01023f;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      background-color: #01023f;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-bottom: 10px;
+    }
+
+    .login-box button:hover {
+      background-color: #1abc9c;
+    }
+
+    #mensaje {
+      margin-top: 10px;
+      color: red;
+      font-weight: bold;
+    }
+
+    .toggle {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #555;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2 id="form-title">Iniciar sesión</h2>
+    <input type="text" id="usuario" placeholder="Usuario">
+    <input type="password" id="clave" placeholder="Contraseña">
+    <button onclick="procesar()">Entrar</button>
+    <p id="mensaje"></p>
+    <p class="toggle" onclick="alternar()">¿No tienes cuenta? Regístrate aquí</p>
+
+
+     <footer style="background-color: #01023f; color: white; text-align: center; padding: 20px; margin-top: 40px;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <p>&copy; 2025 Curso de Metodología de la Investigación</p>
+
+      <p style="margin-top: 10px; font-size: 14px; opacity: 0.8;">
+        Plataforma de Aprendizaje Virtual | Diseñado por Sander  (rbsander97@gmail.com)
+      </p>
+    </div>
+  </footer>
+  </div>
+
+  <div>
+
+    
+  </div>
+
+  <script>
+    let modoRegistro = false;
+
+    function alternar() {
+      modoRegistro = !modoRegistro;
+      document.getElementById('form-title').textContent = modoRegistro ? 'Registro de usuario' : 'Iniciar sesión';
+      document.querySelector('.login-box button').textContent = modoRegistro ? 'Registrarse' : 'Entrar';
+      document.querySelector('.toggle').textContent = modoRegistro ? '¿Ya tienes cuenta? Inicia sesión aquí' : '¿No tienes cuenta? Regístrate aquí';
+      document.getElementById('mensaje').textContent = '';
+    }
+
+    function procesar() {
+      const usuario = document.getElementById('usuario').value.trim();
+      const clave = document.getElementById('clave').value.trim();
+      const mensaje = document.getElementById('mensaje');
+
+      if (!usuario || !clave) {
+        mensaje.textContent = 'Por favor, completa todos los campos.';
+        return;
+      }
+
+      let usuarios = JSON.parse(localStorage.getItem('usuarios')) || {};
+      // Add default admin user if not exists
+      if (!usuarios['admin']) {
+        usuarios['admin'] = 'admin';
+        localStorage.setItem('usuarios', JSON.stringify(usuarios));
+      }
+
+      if (modoRegistro) {
+        if (usuarios[usuario]) {
+          mensaje.textContent = 'Este usuario ya existe.';
+        } else {
+          usuarios[usuario] = clave;
+          localStorage.setItem('usuarios', JSON.stringify(usuarios));
+          mensaje.style.color = 'green';
+          mensaje.textContent = 'Registro exitoso. Ahora puedes iniciar sesión.';
+          alternar();
+        }
+      } else {
+        if (usuarios[usuario] && usuarios[usuario] === clave) {
+          localStorage.setItem('usuario', usuario);
+          window.location.href = 'aula.html';
+        } else {
+          mensaje.textContent = 'Credenciales incorrectas.';
+        }
+      }
+    }
+  </script>
+</body>
+</html>

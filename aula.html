@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Aula Virtual</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header
+      style="
+        background-color: #01023f;
+        display: flex;
+        align-items: center;
+        padding: 20px;
+      "
+      
+    >
+      <img
+        src="img/logo.png"
+        alt="Logo"
+        style="width: 100px; height: 100px; margin-right: 20px"
+      />
+
+      <div style="text-align: center; flex-grow: 1">
+        <h1 style="color: white; margin: 0">
+          Curso de Metodología de la Investigación
+        </h1>
+        <a href="bienvenida.html">
+          <h2 style="color: aliceblue; margin-top: 10px">
+            Bienvenido, <span id="nombre"></span></h2
+        ></a>
+      </div>
+    </header>
+
+    <nav>
+      <a href="inicio.html">Inicio</a>
+      <a href="aula.html">Módulos</a>
+      <a href="calificaciones.html">Calificaciones</a>
+
+      <a href="comentarios.html">Comentarios</a>
+    <a href="biblio.html">Bibliografía</a>
+  
+    <a href="index.html">Salir</a>
+    </nav>
+
+    <section id="contenido">
+      <!-- Default content will be replaced by JavaScript -->
+    </section>
+
+    <script>
+      document.getElementById("nombre").textContent =
+        localStorage.getItem("usuario") || "Invitado";
+
+      // Show modulos by default on page load
+      window.onload = function () {
+        mostrar("modulos");
+      };
+
+      function mostrar(seccion) {
+        const contenido = document.getElementById("contenido");
+        if (seccion === "modulos") {
+          let html = "<h2>Módulos del Curso</h2>";
+
+          // Módulo 1 - Introduccion Conceptos básicos en Metodología de investigación
+          html += `
+          <div class="modulo" style="border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <h3 style="color: #01023f; font-size: 1.5em; margin-bottom: 10px;">📚 Módulo 1</h3>
+            <div class="container">
+              <div class="section">
+                <h1 style="font-size: larger; background-color: #1b5e20; color: white; padding: 10px 20px; border-radius: 5px; border: none; display: inline-block;">Conceptos básicos en Metodología de investigación</h1>
+                <a href="libros/metodologia1.pdf"> <p>Explora los fundamentos y definiciones esenciales para comprender la investigación científica.</p></a>
+
+                <a href="libros/clase 1 .pdf"> <p>Introducción a la Metodología de la Investigación.</p></a>
+                <a href="libros/Qué es y para qué sirve la introducción.pdf"> <p>Como hacer la introducción de mi tesis.</p></a>
+                <a href="clases/clase1.pdf"><p>Conferencia 1 Introductoria</p></a>
+
+                
+
+                <hr>
+                <h2>Evaluación</h2>
+                <p>Realice un ensayo sobre uno de los siguientes temas.</p>
+                <p>• Etica en la Investigación</p>
+                <p>• La investigación científica como proceso</p>
+                <p>• O un mapa conceptual sobre</p>
+              </div>
+            </div>
+             <button style="background-color: darkblue" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdVfSxUA6ZFomHRDJAd-lpQOiHMZ_d9eLfG5tRZSlASQYW20w/viewform?usp=header', '_blank')">Subir Evaluación</button>
+             <div class="consulta-docente" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
+               <h4>Consulta docente</h4>               <p style="font-weight: bold;"> Profesor: Dr.C René Borges Sandrino</p>
+               <p>Correo: <a href="mailto:rbsander97@gmail.com">rbsander97@gmail.com</a></p>
+             </div>
+          </div>
+        `;
+
+          // Módulo 2 - El problema de la Investigación
+          html += `
+          <div class="modulo" style="border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <h3 style="color: #01023f; font-size: 1.5em; margin-bottom: 10px;">📚 Módulo 2</h3>
+            <div class="container">
+              <section>
+                <h2  style="font-size: larger; background-color: #1b5e20; color: white; padding: 10px 20px; border-radius: 5px; border: none; display: inline-block;" >El problema e hipotesis de la Investigación</h2>
+                <a href="investigacion1.html"><p>Fundamentos del problema de investigación.</p></a>
+
+                <a href="libros/problema capitulo1.pdf"><p>El problema y sus partes.</p></a>
+
+                <a href="libros/EBOOK PLANTEAMIENTO DEL PROBLEMA.pdf"><p>Planteamiento del problema.</p></a>
+
+                <a href="libros/EL PROBLEMA DE INVESTIGACIÓN.html"><p>El problema.</p></a>
+
+                <a href="libros/formular problema.pdf"><p>Formular el problema.</p></a>
+
+
+               
+
+              
+
+                <a href="clases/hipotesisproblema.pdf"><p>Conferencia 2 Problema e Hipótesis</p></a>
+                  <a href="problema.html"><p>Test 1</p></a>
+                <hr>
+                <h2>Evaluación</h2>
+
+                <p> Escoja y realice una de los siguientes apartados </p>
+                <p>Exponga en un documento word su tema de investigación, su objeto, campo y problema de la investigación.</p>
+                <p>Diseñe un mapa conceptual con las relaciones que se establecen en las partes del método científico</p>
+              </section>
+            </div>
+ <button style="background-color: darkblue" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdVfSxUA6ZFomHRDJAd-lpQOiHMZ_d9eLfG5tRZSlASQYW20w/viewform?usp=header', '_blank')">Subir Evaluación</button>
+             <div class="consulta-docente" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
+               <div class="consulta-docente" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
+               <h4>Consulta docente</h4>               <p style="font-weight: bold;"> Profesor: Dr.C René Borges Sandrino</p>
+               <p>Correo: <a href="mailto:rbsander97@gmail.com">rbsander97@gmail.com</a></p>
+             </div>
+             </div>
+          </div>
+        `;
+
+          // Módulo 3 - El marco teórico
+          html += `
+         <!-- <div class="modulo" style="border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <h3 style="color: #01023f; font-size: 1.5em; margin-bottom: 10px;"> 📚 Módulo 3</h3>
+            <div class="container">
+              <section>
+                <h2  style="font-size: larger; background-color: #1b5e20; color: white; padding: 10px 20px; border-radius: 5px; border: none; display: inline-block;">El marco teórico</h2>
+                <a href="libros/marco teorico 12.pdf"><p>El marco teórico.</p></a>
+
+                <a href="libros/Marco teorico muy bueno .pdf"><p>Fundamentos del marco teórico.</p></a>
+
+                <a href="libros/sampieri.pdf"><p>Marco teórico segun Sampieri.</p></a>
+
+                <a href="clases/marco.pdf"><p>Conferencia 3 Marco Teórico</p></a>
+
+                <hr>
+                <h2>Evaluación</h2>
+                <p>Diseñe un diagrama con las partes fundamentales del marco teorico basado en su investigación</p>
+              </section>
+            </div>
+                        <button style="background-color: darkblue" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdVfSxUA6ZFomHRDJAd-lpQOiHMZ_d9eLfG5tRZSlASQYW20w/viewform?usp=header', '_blank')">Subir Evaluación</button>
+             <div class="consulta-docente" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
+               <div class="consulta-docente" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
+               <h4>Consulta docente</h4>               <p style="font-weight: bold;"> Profesor: Dr.C René Borges Sandrino</p>
+               <p>Correo: <a href="mailto:rbsander97@gmail.com">rbsander97@gmail.com</a></p>
+             </div>
+             </div>
+          </div>
+        `;
+
+          // Módulo 4 - Objetivos de la investigacion
+          html += `
+          <div class="modulo" style="border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <h3 style="color: #01023f; font-size: 1.5em; margin-bottom: 10px;">🎯 Módulo 4</h3>
+            <div class="container">
+              <section>
+                <h2 style="font-size: larger; background-color: #1b5e20; color: white; padding: 10px 20px; border-radius: 5px; border: none; display: inline-block;">Objetivos de la investigación </h2>
+                <a href=""><p>Formulación de hipótesis en investigación científica.</p></a>
+
+                <a href=""><p>Variables dependientes e independientes.</p></a>
+
+                <a href=""><p>Tipos de variables según Sampieri.</p></a>
+
+                <a href=""><p>Conferencia 4: Objetivos de la investigación </p></a>
+
+                <hr>
+                <h2>Evaluación</h2>
+                <a href="objetivos.html"><p>Seleccione los enunciados correctos.</p></a>
+                <p>Formule 3 hipótesis para su tema de investigación y defina las variables involucradas.</p>
+                <p>Especifique el tipo de cada variable (dependiente, independiente, moderadora, etc.).</p>
+              </section>
+            </div>
+            <button style="background-color: darkblue" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdVfSxUA6ZFomHRDJAd-lpQOiHMZ_d9eLfG5tRZSlASQYW20w/viewform?usp=header', '_blank')">Subir Evaluación</button>
+             <div class="consulta-docente" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
+               <h4>Consulta docente</h4>
+               <p style="font-weight: bold;"> Profesora Dra.C Enia Ramón Musibay </p>
+               <p>Correo: <a href="mailto:profesor@universidad.com">musibay576@gmail.com</a></p>
+             </div>
+          </div>
+        `;
+
+          // Módulo 5 - Diseño Metodológico
+          html += `
+          <div class="modulo" style="border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <h3 style="color: #01023f; font-size: 1.5em; margin-bottom: 10px;">📚Módulo 5</h3>
+            <div class="container">
+              <section>
+                <h2  style="font-size: larger; background-color: #1b5e20; color: white; padding: 10px 20px; border-radius: 5px; border: none; display: inline-block;">Diseño Metodológico: Tipos de Estudio, Población y Muestra, variables</h2>
+
+                <a href="libros/html/Tipos de estudios bueno.html"><p>Tipos de estudios.</p></a>
+
+                <a href="libros/html/Tipos de estudios observacionales _ Noticia de Bioclever_ Blog de Bioclever.html"><p>Estudios Observacionales.</p></a>
+
+
+               <a href="libros/Clasificacion-de-los-tipos-de-estudio.pdf"><p>Clasificación de los tipos de estudio .</p></a>
+
+                 <h3>Nociones Generales de Muestreo</h3>
+
+
+                <a href="libros/sampieri.pdf"><p>Nociones generales de muestreo y sesgos.</p></a>
+
+
+                <h3>Variables Estadísticas</h3>
+                <a href="libros/clase1.pdf"><p>Tipos de variables y su medición.</p></a>
+
+
+                             <h3>Procesamiento Estadístico. Nociones.</h3>
+
+
+                              <a href="libros/metodologia1.pdf"><p>Análisis estadístico básico.</p></a>
+
+
+
+                               <h3>Aspectos Éticos</h3>
+                <a href="libros/Ética .pdf"><p>Consideraciones éticas en el diseño de investigación.</p></a>
+                
+
+
+
+
+           
+
+                
+
+               
+
+                
+
+               
+
+                 <a href="clases/clase1.pdf"><p>Conferencia 5: Diseño Metodológico</p></a>
+
+               
+
+                <hr>
+                <h2>Evaluación</h2>
+                <p>Elabore el diseño metodológico de su investigación incluyendo:</p>
+                <p>• Tipo de estudio y justificación</p>
+                <p>• Población y muestra con criterios de inclusión</p>
+                <p>• Variables a medir y su operacionalización</p>
+                <p>• Consideraciones éticas del estudio</p>
+              </section>
+            </div>
+            <button style="background-color: darkblue" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdVfSxUA6ZFomHRDJAd-lpQOiHMZ_d9eLfG5tRZSlASQYW20w/viewform?usp=header', '_blank')">Subir Evaluación</button>
+             <div class="consulta-docente" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
+              <div class="consulta-docente" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
+               <h4>Consulta docente</h4>               <p style="font-weight: bold;"> Profesor: Dr.C René Borges Sandrino</p>
+               <p>Correo: <a href="mailto:rbsander97@gmail.com">rbsander97@gmail.com</a></p>
+             </div>
+          </div>
+        `;
+
+          // Módulo 6 - Técnicas de Recolección de Información
+          html += `
+          <div class="modulo" style="border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <h3 style="color: #01023f; font-size: 1.5em; margin-bottom: 10px;"> 📚Módulo 6</h3>
+            <div class="container">
+              <section>
+                <h2  style="font-size: larger; background-color: #1b5e20; color: white; padding: 10px 20px; border-radius: 5px; border: none; display: inline-block;">Técnicas e Instrumentos de Recolección de Datos</h2>
+                <a href="RECOLECCION INFOREMACION/Técnicas e instrumentos de recolección de la informaciónNueva carpeta/88. Tecnicas e instrumentos recolección de datos.pdf"><p>Técnicas e instrumentos de recolección de datos.</p></a>
+
+                <a href="RECOLECCION INFOREMACION/Técnicas e instrumentos de recolección de la informaciónNueva carpeta/Técnicas-para-investigar-2-Brujas-2014-pdf.pdf"><p>Técnicas para investigar - Guía práctica.</p></a>
+
+                <a href="RECOLECCION INFOREMACION/Técnicas e instrumentos de recolección de la informaciónNueva carpeta/URL_03_BAS01.pdf"><p>Instrumentos de recolección de información.</p></a>
+
+                <a href="RECOLECCION INFOREMACION/PLANILLA RECOLECCIÓN/a08v13n1.pdf"><p>Planillas y formatos de recolección.</p></a>
+
+                <a href="clases/clase1.pptx"><p>Conferencia 6: Técnicas de Recolección</p></a>
+
+                <hr>
+                <h2>Evaluación</h2>
+                <p>Diseñe un instrumento de recolección de datos para su investigación.</p>
+                <p>Puede ser: encuesta, entrevista, guía de observación, o ficha de análisis.</p>
+              </section>
+            </div>
+            <button style="background-color: darkblue" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdVfSxUA6ZFomHRDJAd-lpQOiHMZ_d9eLfG5tRZSlASQYW20w/viewform?usp=header', '_blank')">Subir Evaluación</button>
+             <div class="consulta-docente" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
+               <h4>Consulta docente</h4>
+               <p style="font-weight: bold;"> Profesora Dra.C Enia Ramón Musibay </p>
+               <p>Correo: <a href="mailto:musibay576@gmail.com">musibay576@gmail.com</a></p>
+             </div>
+          </div>
+        `;
+
+          // Módulo 7 - Resultados
+          html += `
+          <div class="modulo" style="border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <h3 style="color: #01023f; font-size: 1.5em; margin-bottom: 10px;">📚 Módulo 7</h3>
+            <div class="container">
+              <section>
+                <h2 style="font-size: larger; background-color: #1b5e20; color: white; padding: 10px 20px; border-radius: 5px; border: none; display: inline-block;"> Presentación de Resultados</h2>
+                <a href="libros/metodologia1.pdf"><p>Introducción al análisis de datos.</p></a>
+
+                <a href="libros/sampieri.pdf"><p>Métodos de análisis según Sampieri.</p></a>
+
+                <a href="RECOLECCION INFOREMACION/Técnicas e instrumentos de recolección de la informaciónNueva carpeta/Técnicas-para-investigar-2-Brujas-2014-pdf.pdf"><p>Técnicas de análisis cualitativo y cuantitativo.</p></a>
+
+                <a href="clases/clase1.pdf"><p>Conferencia 7: Análisis e Interpretación</p></a>
+
+                <hr>
+                <h2>Evaluación</h2>
+                <p>Elabore un plan de análisis de datos para su investigación.</p>
+                <p>Incluya: técnicas de análisis, herramientas a utilizar y forma de presentación de resultados.</p>
+              </section>
+            </div>
+            <button style="background-color: darkblue" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdVfSxUA6ZFomHRDJAd-lpQOiHMZ_d9eLfG5tRZSlASQYW20w/viewform?usp=header', '_blank')">Subir Evaluación</button>
+             <div class="consulta-docente" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
+               <h4>Consulta docente</h4>
+               <p style="font-weight: bold;">Profesor : Dr.C René Borges Sandrino  </p>
+               <p>Correo: <a href="mailto:rbsander97@gmail.com">rbsander97@gmail.com</a></p>
+             </div>
+          </div>
+        `;
+
+          // Módulo 8 - Inteligencia Artificial y la Investigación
+          html += `
+          <div class="modulo" style="border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <h3 style="color: #01023f; font-size: 1.5em; margin-bottom: 10px;">🤖 Módulo 8</h3>
+            <div class="container">
+              <section>
+                <h2 style="font-size: larger; background-color: #1b5e20; color: white; padding: 10px 20px; border-radius: 5px; border: none; display: inline-block;">Inteligencia Artificial y la Investigación</h2>
+                <a href="libros/metodologia1.pdf"><p>IA como herramienta de investigación.</p></a>
+
+                <a href="libros/sampieri.pdf"><p>Aplicaciones de IA en metodología de investigación.</p></a>
+
+                <a href="RECOLECCION INFOREMACION/Técnicas e instrumentos de recolección de la informaciónNueva carpeta/Técnicas-para-investigar-2-Brujas-2014-pdf.pdf"><p>Herramientas digitales para investigación.</p></a>
+
+                <a href="clases/clase1.pdf"><p>Conferencia 8: IA en la Investigación</p></a>
+
+                <hr>
+                <h2>Evaluación</h2>
+                <p>Investigue y presente una herramienta de IA aplicada a la investigación.</p>
+                <p>Explique cómo puede utilizarse en alguna fase de su proyecto de investigación.</p>
+              </section>
+            </div>
+            <button style="background-color: darkblue" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdVfSxUA6ZFomHRDJAd-lpQOiHMZ_d9eLfG5tRZSlASQYW20w/viewform?usp=header', '_blank')">Subir Evaluación</button>
+             <div class="consulta-docente" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
+                <h4>Consulta docente</h4>
+               <p style="font-weight: bold;" >Profesor: Dr.C René Borges Sandrino  Dr. Yoservis López Linarez </p>
+               <p>Correo: <a href="mailto:rbsander97@gmail.com">rbsander97@gmail.com</a></p>
+             </div>
+          </div-->
+        `;
+
+          //  - Proyecto Final
+          html += `
+          <div class="modulo" style="border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <h3 style="color: #01023f; font-size: 1.5em; margin-bottom: 10px;">🏆 Proyecto Final e Informe de Investigación</h3>
+            <div class="container">
+              <section>
+            
+
+                <hr>
+                <h2>Evaluación</h2>
+                <p>Presente el borrador completo de su proyecto de investigación.</p>
+                
+                <a href="libros/Par.pdf"><p>Guia informe final</p></a>
+              </section>
+            </div>
+            <button style="background-color: darkblue" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdVfSxUA6ZFomHRDJAd-lpQOiHMZ_d9eLfG5tRZSlASQYW20w/viewform?usp=header', '_blank')">Subir Evaluación</button>
+             <div class="consulta-docente" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
+               
+             </div>
+          </div>
+        `;
+          contenido.innerHTML = html;
+        }
+      }
+
+      // Back to top functionality
+      const backToTop = document.getElementById("backToTop");
+      window.addEventListener("scroll", () => {
+        if (window.pageYOffset > 100) {
+          backToTop.style.display = "block";
+        } else {
+          backToTop.style.display = "none";
+        }
+      });
+      backToTop.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    </script>
+    <button
+      id="backToTop"
+      style="
+        position: fixed;
+        bottom: 20px;
+        right: 30px;
+        background-color: #01023f;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+        display: none;
+        transition: opacity 0.3s;
+      "
+    >
+      ↑
+    </button>
+
+ <footer style="background-color: #01023f; color: white; text-align: center; padding: 20px; margin-top: 40px;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <p>&copy; 2025 Curso de Metodología de la Investigación - Todos los derechos reservados</p>
+
+      <p style="margin-top: 10px; font-size: 14px; opacity: 0.8;">
+        Plataforma de Aprendizaje Virtual | Diseñado por Sander
+      </p>
+    </div>
+  </footer>
+  </body>
+</html>
+

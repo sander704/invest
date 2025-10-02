@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Calificaciones - Aula Virtual</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.daxtaTables.min.css">
+    <link rel="stylesheet" href="jquery.dataTables.min.css">
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f6f8;
+    }
+    header {
+      background-color: #01023f;
+      display: flex;
+      align-items: center;
+      padding: 20px;
+    }
+    header img {
+      width: 100px;
+      height: 100px;
+      margin-right: 20px;
+    }
+    header h1 {
+      color: white;
+      margin: 0;
+    }
+    header h2 {
+      color: aliceblue;
+      margin-top: 10px;
+    }
+    nav {
+      background-color: #333;
+      padding: 10px;
+    }
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    section {
+      padding: 20px;
+      min-height: 400px;
+    }
+    footer {
+      background-color: #01023f;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+    #gradesTable {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <img src="img/logo.png" alt="Logo">
+  <div style="text-align: center; flex-grow: 1;">
+    <h1>Curso de Metodología de la Investigación</h1>
+    <h2>Bienvenido, <span id="nombre"></span></h2>
+  </div>
+</header>
+
+<nav>
+  <a href="inicio.html">Inicio</a>
+  <a href="aula.html">Módulos</a>
+  <a href="comentarios.html">Comentarios</a>
+  <a href="calificaciones.html">Calificaciones</a>
+    <a href="biblio.html">Bibliografía</a>
+
+    <a href="index.html">Salir</a>
+</nav>
+
+<section>
+  <h2>Calificaciones</h2>
+  <div id="userView">
+    <p>Aquí puedes ver tus calificaciones obtenidas en el curso.</p>
+    <p id="noGrades" style="display:none;">Usted no tiene calificaciones aún.</p>
+    <table id="gradesTable" class="display" style="width:100%">
+      <thead>
+        <tr>
+          <th>Módulo</th>
+          <th>Calificación</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+  <div id="adminPanel" style="display:none;">
+    <h3>Panel de Administrador</h3>
+    <label for="userSelect">Seleccionar Usuario:</label>
+    <select id="userSelect" onchange="loadUserGrades()"></select>
+    <div id="userGrades"></div>
+    <h4>Agregar Calificación</h4>
+    <label for="moduloSelect">Módulo:</label>
+    <select id="moduloSelect" required>
+      <option value="">Seleccione un módulo</option>
+      <option value="Módulo 1: Introducción a la Investigación">Módulo 1: Introducción a la Investigación</option>
+      <option value="Módulo 2: Metodología Científica">Módulo 2: Metodología Científica</option>
+      <option value="Módulo 3: Análisis de Datos">Módulo 3: Análisis de Datos</option>
+      <option value="Módulo 4: Redacción de Artículos">Módulo 4: Redacción de Artículos</option>
+    </select>
+    <input type="number" id="calificacion" placeholder="Calificación" required>
+    <button onclick="addGrade()">Agregar</button>
+  </div>
+</section>
+
+<footer>
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <p>&copy; 2025 Curso de Metodología de la Investigación - Todos los derechos reservados</p>
+    <p style="margin-top: 10px; font-size: 14px; opacity: 0.8;">
+      Plataforma de Aprendizaje Virtual | Diseñado por Sander
+    </p>
+  </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script>
+  // Check if user is logged in
+  const usuario = localStorage.getItem('usuario');
+  if (!usuario) {
+    window.location.href = 'index.html';
+  }
+
+  document.getElementById('nombre').textContent = usuario;
+
+  if (usuario === 'admin') {
+    document.getElementById('userView').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'block';
+    // Populate userSelect
+    let usuarios = JSON.parse(localStorage.getItem('usuarios')) || {};
+    let select = document.getElementById('userSelect');
+    for (let u in usuarios) {
+      if (u !== 'admin') {
+        let option = document.createElement('option');
+        option.value = u;
+        option.text = u;
+        select.appendChild(option);
+      }
+    }
+  } else {
+    // Get grades for the user
+    let grades = JSON.parse(localStorage.getItem('grades_' + usuario)) || [];
+
+    if (grades.length === 0) {
+      document.getElementById('noGrades').style.display = 'block';
+      document.getElementById('gradesTable').style.display = 'none';
+    } else {
+      // Initialize DataTable
+      $(document).ready(function() {
+        $('#gradesTable').DataTable({
+          data: grades.map(g => [g.modulo, g.calificacion]),
+          columns: [
+            { title: 'Módulo' },
+            { title: 'Calificación' }
+          ],
+          language: {
+            "lengthMenu": "Mostrar _MENU_ registros por página",
+            "zeroRecords": "No se encontraron resultados",
+            "info": "",
+            "infoEmpty": "",
+            "infoFiltered": "",
+            "search": "Buscar:",
+            "paginate": {
+              "first": "Primero",
+              "last": "Último",
+              "next": "Siguiente",
+              "previous": "Anterior"
+            }
+          },
+          info: false
+        });
+      });
+    }
+  }
+
+  function loadUserGrades() {
+    let selectedUser = document.getElementById('userSelect').value;
+    if (!selectedUser) return;
+    let grades = JSON.parse(localStorage.getItem('grades_' + selectedUser)) || [];
+    let data = [];
+    grades.forEach((g, index) => {
+      data.push([g.modulo, g.calificacion, '<button onclick="deleteGrade(\'' + selectedUser + '\', ' + index + ')">Eliminar</button>']);
+    });
+    let html = '<table id="userGradesTable" class="display" style="width:100%; margin-top:20px;"><thead><tr><th>Módulo</th><th>Calificación</th><th>Acciones</th></tr></thead><tbody></tbody></table>';
+    document.getElementById('userGrades').innerHTML = html;
+    if ($.fn.DataTable.isDataTable('#userGradesTable')) {
+      $('#userGradesTable').DataTable().destroy();
+    }
+    $('#userGradesTable').DataTable({
+      data: data,
+      columns: [
+        { title: 'Módulo' },
+        { title: 'Calificación' },
+        { title: 'Acciones' }
+      ],
+      language: {
+        "lengthMenu": "Mostrar _MENU_ registros por página",
+        "zeroRecords": "No se encontraron resultados",
+        "info": "",
+        "infoEmpty": "",
+        "infoFiltered": "",
+        "search": "Buscar:",
+        "paginate": {
+          "first": "Primero",
+          "last": "Último",
+          "next": "Siguiente",
+          "previous": "Anterior"
+        }
+      },
+      info: false
+    });
+  }
+
+  function addGrade() {
+    let selectedUser = document.getElementById('userSelect').value;
+    if (!selectedUser) { alert('Selecciona un usuario'); return; }
+    let modulo = document.getElementById('moduloSelect').value;
+    let calificacion = parseInt(document.getElementById('calificacion').value);
+    if (!modulo || isNaN(calificacion)) { alert('Completa los campos correctamente'); return; }
+    let grades = JSON.parse(localStorage.getItem('grades_' + selectedUser)) || [];
+    grades.push({modulo, calificacion});
+    localStorage.setItem('grades_' + selectedUser, JSON.stringify(grades));
+    document.getElementById('moduloSelect').value = '';
+    document.getElementById('calificacion').value = '';
+    loadUserGrades();
+  }
+
+  function deleteGrade(user, index) {
+    let grades = JSON.parse(localStorage.getItem('grades_' + user)) || [];
+    grades.splice(index, 1);
+    localStorage.setItem('grades_' + user, JSON.stringify(grades));
+    loadUserGrades();
+  }
+
+  // Make functions global
+  window.loadUserGrades = loadUserGrades;
+  window.addGrade = addGrade;
+  window.deleteGrade = deleteGrade;
+</script>
+</body>
+</html>

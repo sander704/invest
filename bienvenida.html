@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Bienvenida al Curso</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Encabezado con imagen lateral -->
+  <header style="background-color: #01023f; display: flex; align-items: center; padding: 20px;">
+    <img src="img/logo.png" alt="Logo" style="width: 100px; height: 100px; margin-right: 20px;">
+    <div style="text-align: center; flex-grow: 1;">
+      <h1 style="color: white; margin: 0;">Curso de Metodología de la Investigación</h1>
+      <h2 style="color: aliceblue; margin-top: 10px;">Bienvenido, <span id="nombre"></span></h2>
+    </div>
+  </header>
+
+  <!-- Menú de navegación -->
+  <nav>
+    <a href="aula.html">Inicio</a>
+
+    <a href="index.html">Salir</a>
+  </nav>
+
+  <!-- Contenido de bienvenida -->
+  <section id="contenido" style="padding: 30px; max-width: 900px; margin: auto;">
+    <h2>🎓 Bienvenida al Curso</h2>
+    <p>¡Bienvenido al fascinante mundo de la investigación académica!</p>
+
+    <p>Este curso ha sido diseñado para brindarte las herramientas teóricas y prácticas necesarias para comprender, planificar y ejecutar procesos de investigación rigurosos y significativos. A lo largo de los próximos módulos, explorarás los fundamentos epistemológicos, los enfoques metodológicos, las técnicas de recolección de datos y los criterios de análisis que sustentan el trabajo investigativo en diversas disciplinas.</p>
+
+    <h3>¿Qué puedes esperar?</h3>
+    <ul>
+      <li>📘 Lecturas clave que te introducirán en los conceptos esenciales</li>
+      <li>🧠 Actividades que te invitarán a reflexionar y aplicar lo aprendido</li>
+      <li>📝 Evaluaciones que consolidarán tu dominio de los contenidos</li>
+    </ul>
+
+    <p>Este espacio virtual será tu aula, tu laboratorio y tu punto de encuentro con el conocimiento. Te animamos a participar activamente, compartir tus ideas, y sobre todo, a cuestionar y explorar con curiosidad.</p>
+
+    <p> ¿Por qué es esto tan crucial para ustedes como médicos?
+Para ser consumidores críticos del conocimiento: Diariamente, journals, conferencias y colegas les presentan nuevos estudios. ¿Cómo saben si sus resultados son válidos? ¿Si la metodología fue la adecuada? ¿Si se pueden aplicar a sus pacientes? Este curso les dará las herramientas para responder esas preguntas y tomar decisiones basadas en la mejor evidencia disponible, no en la más reciente o la más publicitada.
+Para mejorar la práctica clínica diaria: Cada vez que se preguntan "¿Habrá una forma mejor de hacer esto?", "¿Este tratamiento realmente funciona como dicen?" o "¿Por qué mis pacientes no responden como en el estudio?", están formulando la semilla de una pregunta de investigación. Aprenderán a cultivar esa semilla, a transformar su curiosidad clínica en un proyecto estructurado que pueda generar respuestas reales y mejorar los outcomes de sus pacientes.
+Para contribuir al avance de la medicina: La comunidad médica es una red de conocimiento colaborativo. Lo que ustedes aprenden en su práctica es invaluable. Este curso les enseñará a sistematizar esa experiencia, a medirla, analizarla y comunicarla de manera que enriquezca el acervo médico global. Su próximo caso clínico, su observación única, podría ser la chispa que inicie una nueva línea de investigación que salve incontables vidas.
+Para liderar con autoridad: El médico que entiende metodología de la investigación es un líder natural. Habla con base en datos, diseña proyectos para mejorar los procesos de su hospital y guía a sus equipos con una brújula que apunta siempre hacia la calidad y la mejora continua.
+Este curso es mucho más que un requisito académico; es la llave que les abrirá la puerta para pasar de ser aplicadores pasivos del conocimiento a ser generadores activos del mismo.
+
+Los invitamos a abordar cada módulo con la misma curiosidad y rigor con que abordan un diagnóstico complejo. Traigan sus dudas, sus experiencias y sus ganas de cambiar para bien la manera en que practicamos la medicina.
+
+Bienvenidos a la metodología de la investigación. Bienvenidos al futuro de la medicina basada en evidencia.</p>
+
+    <blockquote style="font-style: italic; color: #555; border-left: 4px solid #1abc9c; padding-left: 10px;">
+      “Investigar no es repetir lo sabido, sino descubrir lo que aún no se ha dicho.”
+    </blockquote>
+
+    <p>¡Mucho éxito en este recorrido académico! Estamos aquí para acompañarte en cada paso.</p>
+  </section>
+
+  <!-- Script para mostrar nombre del usuario -->
+  <script>
+    document.getElementById('nombre').textContent = localStorage.getItem('usuario') || 'Invitado';
+  </script>
+
+  <footer style="background-color: #01023f; color: white; text-align: center; padding: 20px; margin-top: 40px;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <p>&copy; 2025 Curso de Metodología de la Investigación - Todos los derechos reservados</p>
+      <p style="margin-top: 10px; font-size: 14px; opacity: 0.8;">
+        Plataforma de Aprendizaje Virtual | Universidad Autónoma
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
