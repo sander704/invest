@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Usuarios Registrados - Admin</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6f8;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: #01023f;
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background-color: #01023f;
+      color: white;
+    }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+    #mensaje {
+      margin-top: 20px;
+      color: red;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Usuarios Registrados</h1>
+  <table id="usuarios-table">
+    <thead>
+      <tr>
+        <th>Usuario</th>
+        <th>Rol</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Users will be populated here -->
+    </tbody>
+  </table>
+  <p id="mensaje"></p>
+  <script>
+    function cargarUsuarios() {
+      const usuariosTableBody = document.querySelector('#usuarios-table tbody');
+      const mensaje = document.getElementById('mensaje');
+      usuariosTableBody.innerHTML = '';
+      const currentUser = localStorage.getItem('usuario');
+      const currentRole = localStorage.getItem('role');
+
+      if (currentRole !== 'admin') {
+        mensaje.textContent = 'Acceso denegado. Solo el administrador puede ver esta página.';
+        return;
+      }
+
+      const users = JSON.parse(localStorage.getItem('users')) || {};
+      // Include admin user explicitly
+      users['admin'] = { role: 'admin' };
+
+      for (const [username, data] of Object.entries(users)) {
+        const tr = document.createElement('tr');
+        const tdUser = document.createElement('td');
+        tdUser.textContent = username;
+        const tdRole = document.createElement('td');
+        tdRole.textContent = data.role || 'estudiante';
+        tr.appendChild(tdUser);
+        tr.appendChild(tdRole);
+        usuariosTableBody.appendChild(tr);
+      }
+    }
+
+    window.onload = cargarUsuarios;
+  </script>
+</body>
+</html>
