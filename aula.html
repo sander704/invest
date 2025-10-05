@@ -39,7 +39,7 @@
 
       <a href="comentarios.html">Comentarios</a>
     <a href="biblio.html">Bibliografía</a>
-  
+    <a id="usuarios-link" href="usuarios.html" style="display:none;">Usuarios</a>
     <a href="index.html">Salir</a>
     </nav>
 
@@ -50,6 +50,10 @@
     <script>
       document.getElementById("nombre").textContent =
         localStorage.getItem("usuario") || "Invitado";
+
+      if (localStorage.getItem('role') === 'admin') {
+        document.getElementById('usuarios-link').style.display = 'inline';
+      }
 
       // Show modulos by default on page load
       window.onload = function () {
@@ -68,10 +72,10 @@
             <div class="container">
               <div class="section">
                 <h1 style="font-size: larger; background-color: #1b5e20; color: white; padding: 10px 20px; border-radius: 5px; border: none; display: inline-block;">Conceptos básicos en Metodología de investigación</h1>
-                <a href="metodologia1.pdf"> <p>Explora los fundamentos y definiciones esenciales para comprender la investigación científica.</p></a>
+                <a href="libros/metodologia1.pdf"> <p>Explora los fundamentos y definiciones esenciales para comprender la investigación científica.</p></a>
 
-                <a href="clase1.pdf"> <p>Introducción a la Metodología de la Investigación.</p></a>
-                <a href="Qué es y para qué sirve la introducción.pdf"> <p>Como hacer la introducción de mi tesis.</p></a>
+                <a href="libros/clase 1 .pdf"> <p>Introducción a la Metodología de la Investigación.</p></a>
+                <a href="libros/Qué es y para qué sirve la introducción.pdf"> <p>Como hacer la introducción de mi tesis.</p></a>
                 <a href="clases/clase1.pdf"><p>Conferencia 1 Introductoria</p></a>
 
                 
@@ -136,7 +140,7 @@
 
           // Módulo 3 - El marco teórico
           html += `
-         <!-- <div class="modulo" style="border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+          <div class="modulo" style="border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
             <h3 style="color: #01023f; font-size: 1.5em; margin-bottom: 10px;"> 📚 Módulo 3</h3>
             <div class="container">
               <section>
@@ -166,7 +170,7 @@
 
           // Módulo 4 - Objetivos de la investigacion
           html += `
-          <div class="modulo" style="border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+         <!--  <div class="modulo" style="border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 20px 0; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
             <h3 style="color: #01023f; font-size: 1.5em; margin-bottom: 10px;">🎯 Módulo 4</h3>
             <div class="container">
               <section>
@@ -430,6 +434,4 @@
   </footer>
   </body>
 </html>
-
-
 
