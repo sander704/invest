@@ -69,17 +69,23 @@
       cursor: pointer;
       text-decoration: underline;
     }
+
+    .register-fields {
+      display: none;
+    }
   </style>
 </head>
 <body>
   <div class="login-box">
     <h2>Metodología de la Investigación</h2>
-    <h2>Iniciar sesión</h2>
+    <h2 id="titulo">Iniciar sesión</h2>
     <input type="text" id="usuario" placeholder="Usuario">
     <input type="password" id="clave" placeholder="Contraseña">
+    <input type="password" id="confirmClave" placeholder="Confirmar Contraseña" class="register-fields">
     <button onclick="procesar()">Entrar</button>
+    <button onclick="registrar()" class="register-fields">Registrarse</button>
     <p id="mensaje"></p>
-
+    <div class="toggle" onclick="toggleMode()">¿No tienes cuenta? Regístrate</div>
 
      <footer style="background-color: #01023f; color: white; text-align: center; padding: 20px; margin-top: 40px;">
     <div style="max-width: 1200px; margin: 0 auto;">
@@ -98,6 +104,8 @@
   </div>
 
   <script>
+    let users = JSON.parse(localStorage.getItem('users')) || {};
+
     function procesar() {
       const usuario = document.getElementById('usuario').value.trim();
       const clave = document.getElementById('clave').value.trim();
@@ -110,10 +118,56 @@
 
       if (usuario === 'admin' && clave === 'admin123') {
         localStorage.setItem('usuario', usuario);
+        localStorage.setItem('role', 'admin');
+        window.location.href = 'aula.html';
+      } else if (users[usuario] && users[usuario].password === clave) {
+        localStorage.setItem('usuario', usuario);
+        localStorage.setItem('role', users[usuario].role);
         window.location.href = 'aula.html';
       } else {
         mensaje.textContent = 'Credenciales incorrectas.';
       }
+    }
+
+    function registrar() {
+      const usuario = document.getElementById('usuario').value.trim();
+      const clave = document.getElementById('clave').value.trim();
+      const confirmClave = document.getElementById('confirmClave').value.trim();
+      const mensaje = document.getElementById('mensaje');
+
+      if (!usuario || !clave || !confirmClave) {
+        mensaje.textContent = 'Por favor, completa todos los campos.';
+        return;
+      }
+
+      if (clave !== confirmClave) {
+        mensaje.textContent = 'Las contraseñas no coinciden.';
+        return;
+      }
+
+      if (usuario === 'admin') {
+        mensaje.textContent = 'No puedes registrarte como admin.';
+        return;
+      }
+
+      if (users[usuario]) {
+        mensaje.textContent = 'El usuario ya existe.';
+        return;
+      }
+
+      users[usuario] = { password: clave, role: 'estudiante' };
+      localStorage.setItem('users', JSON.stringify(users));
+      mensaje.textContent = 'Registro exitoso. Ahora puedes iniciar sesión.';
+      toggleMode();
+    }
+
+    function toggleMode() {
+      const isLogin = document.getElementById('titulo').textContent === 'Iniciar sesión';
+      document.getElementById('titulo').textContent = isLogin ? 'Registrarse' : 'Iniciar sesión';
+      document.getElementById('confirmClave').style.display = isLogin ? 'block' : 'none';
+      document.querySelector('button[onclick="procesar()"]').style.display = isLogin ? 'none' : 'block';
+      document.querySelector('button[onclick="registrar()"]').style.display = isLogin ? 'block' : 'none';
+      document.querySelector('.toggle').textContent = isLogin ? '¿Ya tienes cuenta? Inicia sesión' : '¿No tienes cuenta? Regístrate';
     }
   </script>
 </body>
