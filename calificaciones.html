@@ -83,13 +83,15 @@
 <section>
   <h2>Calificaciones</h2>
   <div id="userView">
-    <p>Aquí puedes ver tus calificaciones obtenidas en el curso.</p>
-    <p id="noGrades" style="display:none;">Usted no tiene calificaciones aún.</p>
+    <p>Aquí puedes ver las calificaciones de todos los estudiantes del curso.</p>
+    <p id="noGrades" style="display:none;">No hay calificaciones aún.</p>
     <table id="gradesTable" class="display" style="width:100%">
       <thead>
         <tr>
+          <th>Nombre</th>
+          <th>Apellidos</th>
           <th>Módulo</th>
-          <th>Calificación</th>
+          <th>Nota</th>
         </tr>
       </thead>
       <tbody>
@@ -97,21 +99,39 @@
     </table>
   </div>
   <div id="adminPanel" style="display:none;">
-    <h3>Panel de Administrador</h3>
-    <label for="userSelect">Seleccionar Usuario:</label>
-    <select id="userSelect" onchange="loadUserGrades()"></select>
-    <div id="userGrades"></div>
-    <h4>Agregar Calificación</h4>
+    <h3>Panel de Administrador - Gestionar Calificaciones</h3>
+    <table id="adminGradesTable" class="display" style="width:100%; margin-bottom:20px;">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellidos</th>
+          <th>Módulo</th>
+          <th>Nota</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+    <h4 id="formTitle">Agregar Calificación</h4>
+    <input type="text" id="name" placeholder="Nombre" required>
+    <input type="text" id="surnames" placeholder="Apellidos" required>
     <label for="moduloSelect">Módulo:</label>
     <select id="moduloSelect" required>
       <option value="">Seleccione un módulo</option>
-      <option value="Módulo 1: Introducción a la Investigación">Módulo 1: Introducción a la Investigación</option>
-      <option value="Módulo 2: Metodología Científica">Módulo 2: Metodología Científica</option>
-      <option value="Módulo 3: Análisis de Datos">Módulo 3: Análisis de Datos</option>
-      <option value="Módulo 4: Redacción de Artículos">Módulo 4: Redacción de Artículos</option>
+      <option value="Módulo 1: Introducción a la Investigación">Módulo 1: Conceptos básicos en Metodología de investigación</option>
+      <option value="Módulo 2: Metodología Científica">Módulo 2: El problema e hipotesis de la Investigación</option>
+      <option value="Módulo 3: Análisis de Datos">Módulo 3: El marco teórico</option>
+      <option value="Módulo 4: Redacción de Artículos">Módulo 4: Objetivos</option>
+       <option value="Módulo 4: Redacción de Artículos">Módulo 5: Diseño Metodológico</option>
+         <option value="Módulo 4: Redacción de Artículos">Módulo 6: Tecnicas de recolección de la información</option>
+           <option value="Módulo 4: Redacción de Artículos">Módulo 7 : Resultados</option>
+             <option value="Módulo 4: Redacción de Artículos">Módulo 8 :Inteligencia Artificial y la Investigación</option>
+             <option value="Módulo 4: Redacción de Artículos">Proyecto Final</option>
     </select>
-    <input type="number" id="calificacion" placeholder="Calificación" required>
-    <button onclick="addGrade()">Agregar</button>
+    <input type="number" id="calificacion" placeholder="Nota" required min="0" max="100">
+    <button id="actionButton" onclick="addOrUpdateGrade()">Agregar</button>
+    <button onclick="cancelEdit()">Cancelar</button>
   </div>
 </section>
 
@@ -127,6 +147,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script>
+  let editingIndex = -1;
+
   // Check if user is logged in
   const usuario = localStorage.getItem('usuario');
   if (!usuario) {
@@ -135,35 +157,37 @@
 
   document.getElementById('nombre').textContent = usuario;
 
-  if (usuario === 'admin') {
-    document.getElementById('userView').style.display = 'none';
-    document.getElementById('adminPanel').style.display = 'block';
-    // Populate userSelect
-    let usuarios = JSON.parse(localStorage.getItem('usuarios')) || {};
-    let select = document.getElementById('userSelect');
-    for (let u in usuarios) {
-      if (u !== 'admin') {
-        let option = document.createElement('option');
-        option.value = u;
-        option.text = u;
-        select.appendChild(option);
-      }
-    }
-  } else {
-    // Get grades for the user
-    let grades = JSON.parse(localStorage.getItem('grades_' + usuario)) || [];
-
-    if (grades.length === 0) {
-      document.getElementById('noGrades').style.display = 'block';
-      document.getElementById('gradesTable').style.display = 'none';
+  $(document).ready(function() {
+    if (usuario === 'admin') {
+      document.getElementById('userView').style.display = 'none';
+      document.getElementById('adminPanel').style.display = 'block';
+      loadGlobalGrades();
     } else {
-      // Initialize DataTable
-      $(document).ready(function() {
+      loadGlobalGrades();
+    }
+  });
+
+  function loadGlobalGrades() {
+    let grades = JSON.parse(localStorage.getItem('global_grades')) || [];
+
+    if (usuario !== 'admin') {
+      if (grades.length === 0) {
+        document.getElementById('noGrades').style.display = 'block';
+        document.getElementById('gradesTable').style.display = 'none';
+      } else {
+        document.getElementById('noGrades').style.display = 'none';
+        document.getElementById('gradesTable').style.display = 'table';
+        let data = grades.map(g => [g.name, g.surnames, g.module, g.grade]);
+        if ($.fn.DataTable.isDataTable('#gradesTable')) {
+          $('#gradesTable').DataTable().destroy();
+        }
         $('#gradesTable').DataTable({
-          data: grades.map(g => [g.modulo, g.calificacion]),
+          data: data,
           columns: [
+            { title: 'Nombre' },
+            { title: 'Apellidos' },
             { title: 'Módulo' },
-            { title: 'Calificación' }
+            { title: 'Nota' }
           ],
           language: {
             "lengthMenu": "Mostrar _MENU_ registros por página",
@@ -181,73 +205,94 @@
           },
           info: false
         });
+      }
+    } else {
+      let data = grades.map((g, index) => [g.name, g.surnames, g.module, g.grade, '<button onclick="editGrade(' + index + ')">Editar</button>']);
+      if ($.fn.DataTable.isDataTable('#adminGradesTable')) {
+        $('#adminGradesTable').DataTable().destroy();
+      }
+      $('#adminGradesTable').DataTable({
+        data: data,
+        columns: [
+          { title: 'Nombre' },
+          { title: 'Apellidos' },
+          { title: 'Módulo' },
+          { title: 'Nota' },
+          { title: 'Acciones' }
+        ],
+        language: {
+          "lengthMenu": "Mostrar _MENU_ registros por página",
+          "zeroRecords": "No se encontraron resultados",
+          "info": "",
+          "infoEmpty": "",
+          "infoFiltered": "",
+          "search": "Buscar:",
+          "paginate": {
+            "first": "Primero",
+            "last": "Último",
+            "next": "Siguiente",
+            "previous": "Anterior"
+          }
+        },
+        info: false
       });
     }
   }
 
-  function loadUserGrades() {
-    let selectedUser = document.getElementById('userSelect').value;
-    if (!selectedUser) return;
-    let grades = JSON.parse(localStorage.getItem('grades_' + selectedUser)) || [];
-    let data = [];
-    grades.forEach((g, index) => {
-      data.push([g.modulo, g.calificacion, '<button onclick="deleteGrade(\'' + selectedUser + '\', ' + index + ')">Eliminar</button>']);
-    });
-    let html = '<table id="userGradesTable" class="display" style="width:100%; margin-top:20px;"><thead><tr><th>Módulo</th><th>Calificación</th><th>Acciones</th></tr></thead><tbody></tbody></table>';
-    document.getElementById('userGrades').innerHTML = html;
-    if ($.fn.DataTable.isDataTable('#userGradesTable')) {
-      $('#userGradesTable').DataTable().destroy();
+  function addOrUpdateGrade() {
+    let name = document.getElementById('name').value.trim();
+    let surnames = document.getElementById('surnames').value.trim();
+    let module = document.getElementById('moduloSelect').value;
+    let grade = parseInt(document.getElementById('calificacion').value);
+    if (!name || !surnames || !module || isNaN(grade)) {
+      alert('Completa todos los campos correctamente');
+      return;
     }
-    $('#userGradesTable').DataTable({
-      data: data,
-      columns: [
-        { title: 'Módulo' },
-        { title: 'Calificación' },
-        { title: 'Acciones' }
-      ],
-      language: {
-        "lengthMenu": "Mostrar _MENU_ registros por página",
-        "zeroRecords": "No se encontraron resultados",
-        "info": "",
-        "infoEmpty": "",
-        "infoFiltered": "",
-        "search": "Buscar:",
-        "paginate": {
-          "first": "Primero",
-          "last": "Último",
-          "next": "Siguiente",
-          "previous": "Anterior"
-        }
-      },
-      info: false
-    });
+    let grades = JSON.parse(localStorage.getItem('global_grades')) || [];
+    if (editingIndex === -1) {
+      grades.push({name, surnames, module, grade});
+    } else {
+      grades[editingIndex] = {name, surnames, module, grade};
+      editingIndex = -1;
+    }
+    localStorage.setItem('global_grades', JSON.stringify(grades));
+    clearForm();
+    loadGlobalGrades();
   }
 
-  function addGrade() {
-    let selectedUser = document.getElementById('userSelect').value;
-    if (!selectedUser) { alert('Selecciona un usuario'); return; }
-    let modulo = document.getElementById('moduloSelect').value;
-    let calificacion = parseInt(document.getElementById('calificacion').value);
-    if (!modulo || isNaN(calificacion)) { alert('Completa los campos correctamente'); return; }
-    let grades = JSON.parse(localStorage.getItem('grades_' + selectedUser)) || [];
-    grades.push({modulo, calificacion});
-    localStorage.setItem('grades_' + selectedUser, JSON.stringify(grades));
+  function editGrade(index) {
+    let grades = JSON.parse(localStorage.getItem('global_grades')) || [];
+    let g = grades[index];
+    document.getElementById('name').value = g.name;
+    document.getElementById('surnames').value = g.surnames;
+    document.getElementById('moduloSelect').value = g.module;
+    document.getElementById('calificacion').value = g.grade;
+    document.getElementById('formTitle').textContent = 'Editar Calificación';
+    document.getElementById('actionButton').textContent = 'Actualizar';
+    editingIndex = index;
+  }
+
+  function cancelEdit() {
+    clearForm();
+    editingIndex = -1;
+  }
+
+  function clearForm() {
+    document.getElementById('name').value = '';
+    document.getElementById('surnames').value = '';
     document.getElementById('moduloSelect').value = '';
     document.getElementById('calificacion').value = '';
-    loadUserGrades();
-  }
-
-  function deleteGrade(user, index) {
-    let grades = JSON.parse(localStorage.getItem('grades_' + user)) || [];
-    grades.splice(index, 1);
-    localStorage.setItem('grades_' + user, JSON.stringify(grades));
-    loadUserGrades();
+    document.getElementById('formTitle').textContent = 'Agregar Calificación';
+    document.getElementById('actionButton').textContent = 'Agregar';
   }
 
   // Make functions global
-  window.loadUserGrades = loadUserGrades;
-  window.addGrade = addGrade;
-  window.deleteGrade = deleteGrade;
+  window.loadGlobalGrades = loadGlobalGrades;
+  window.addOrUpdateGrade = addOrUpdateGrade;
+  window.editGrade = editGrade;
+  window.cancelEdit = cancelEdit;
 </script>
 </body>
 </html>
+
+
